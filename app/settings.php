@@ -22,10 +22,10 @@ return function (ContainerBuilder $containerBuilder) {
                     'level' => Logger::DEBUG,
                 ],
                 'db' => [
-                    'host' => 'mysql:3306',
-                    'database' => 'cs21004',
+                    'host' => 'roundhouse.proxy.rlwy.net:18876',
+                    'database' => 'railway',
                     'username' => 'root',
-                    'password' => 'root',
+                    'password' => 'GYejFlEKkgmayqMIczVpPwVslxuBQAKk',
                     'charset' => 'utf8mb4',
                 ],
             ]);
