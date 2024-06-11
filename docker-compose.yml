@@ -5,14 +5,50 @@ volumes:
         driver: local
 
 services:
-    slim:
-        image: php:7-alpine
-        working_dir: /var/www
-        command: php -S 0.0.0.0:8080 -t public
+    web:
+        container_name: apics21004
+        # command: php -S 0.0.0.0:8080 -t public
+        command: bash -c "composer install --ignore-platform-req=ext-gd && apache2-foreground && php -S web:80 -t public"
+        build:
+            context: .
+            dockerfile: ./.docker/Dockerfile
         environment:
             docker: "true"
         ports:
-            - "8080:8080"
+            - "8010:80"
         volumes:
-            - .:/var/www
+            - .:/var/www/html
             - logs:/var/www/logs
+        networks:
+            - slim-network
+        depends_on:
+            - mysql
+    mysql:
+        image: mysql:5.7
+        environment:
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_DATABASE: cs21004
+        ports:
+            - "3306:3306"
+        volumes:
+            - ./mysql:/var/lib/mysql
+        networks:
+            - slim-network
+
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin
+        container_name: phpmyadmin
+        environment:
+            PMA_HOST: mysql
+            PMA_PORT: "3306"
+            MYSQL_ROOT_PASSWORD: root
+        ports:
+            - "8082:80"
+        volumes:
+            - ./.docker/phpmyadmin:/sessions
+        networks:
+            - slim-network
+
+networks:
+    slim-network:
+        driver: bridge

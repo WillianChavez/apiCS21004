@@ -22,10 +22,10 @@ return function (ContainerBuilder $containerBuilder) {
                     'level' => Logger::DEBUG,
                 ],
                 'db' => [
-                    'host' => 'localhost:3306',
+                    'host' => 'mysql:3306',
                     'database' => 'cs21004',
                     'username' => 'root',
-                    'password' => '',
+                    'password' => 'root',
                     'charset' => 'utf8mb4',
                 ],
             ]);
